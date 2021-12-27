@@ -1,0 +1,9 @@
+{
+    "files.associations": {
+        "stdio.h": "c",
+        "__locale": "c",
+        "locale": "c",
+        "thread": "c",
+        "graph.h": "c"
+    }
+}
