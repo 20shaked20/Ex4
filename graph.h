@@ -16,44 +16,10 @@ typedef struct GRAPH_NODE_ {
     struct GRAPH_NODE_ *next;
 } node, *pnode;
 
-void build_graph_cmd(pnode *head);
-void insert_node_cmd(pnode *head);
-void delete_node_cmd(pnode *head);
+char build_graph_cmd(pnode head);
+char add_edges(pedge edges,pnode head);
+char add_node(pnode head);
+void remove_edges(pedge edges);
 void printGraph_cmd(pnode head); //for self debug
-void deleteGraph_cmd(pnode* head);
-void shortsPath_cmd(pnode head);
-void TSP_cmd(pnode head);
 
 #endif
- /*
-  *     while (x != 'D')
-    {
-        scanf("%c", &x); //insert a wanted function to implement.
-        if (x == 'A')
-        { //generate graph
-            build_graph_cmd(nodes);
-        }
-        if (x == 'B')
-        { // finds if there's a route between i,j
-            scanf("%d", &i);
-            scanf("%d", &j);
-            exists = route_exists(i, j); // checks if there's a route.
-            if (exists == 1)
-            {
-                printf("True\n");
-            }
-            else
-            {
-                printf("False\n");
-            }
-        }
-        if (x == 'C')
-        { // finds the closest route between i,j
-            scanf("%d", &i);
-            scanf("%d", &j);
-            shortest_route(i, j);
-            printf("\n");
-        }
-    }
-    */ 
-   

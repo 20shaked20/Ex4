@@ -4,6 +4,8 @@
         "__locale": "c",
         "locale": "c",
         "thread": "c",
-        "graph.h": "c"
+        "graph.h": "c",
+        "iterator": "c",
+        "random": "c"
     }
 }

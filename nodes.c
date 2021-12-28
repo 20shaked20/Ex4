@@ -2,48 +2,41 @@
 #include <stdlib.h>
 #include "graph.h"
 
-typedef struct GRAPH_NODE_ *pnode;;
-
-typedef struct edge_ {
-    int weight;
-    pnode endpoint; // next id point
-    struct edge_ *next;
-} edge, *pedge;
-
-
-typedef struct GRAPH_NODE_ {
-    int id;
-    pedge edges; // list of edges for node
-    struct GRAPH_NODE_ *next;
-} node, *pnode;
-
-
-
-void insert_node_cmd(pnode *head);
-void delete_node_cmd(pnode *head);
-
-
-void insert_node_cmd(pnode *head){
-    node *src; // traversal node.
-    src = head;
-    int dest = 0;
-    char ch = "";
-    int node_id = 0;
-    int weight = 0;
-
-    scanf("%c",&ch); // getting the n (to operate on new node.)
-    scanf("%d", &node_id); // get the node id.
-
-    while(src->id!=node_id){ // getting the src node we operate on to add edge to.
-        src = src->next;  
+char add_node(pnode head)
+{
+    int id = 0;
+    int tmp_id = -1;
+    char c;
+    int node_size = 0;
+    printf("ADDING NODE \n");
+    scanf("%d", &id); // gets the id of node we operates
+    //checking if the node exists, if so, we'll have to remove the edges of it, other wise just add it.
+    pnode traverse = head;
+    while (traverse != NULL)
+    {
+        printf("GOOD\n");
+        printf("TRAVERSE: %d \n", traverse[0].id);
+        if (traverse->id == id)
+        { // if the node does exsits, we'll remove its edges.
+            remove_edges(head[id].edges);
+            tmp_id = id;
+        }
+        printf("NEXT: %d \n", traverse[node_size].id);
+        traverse = traverse->next;
+        ++node_size;
     }
-
-    scanf("%d",&dest);
-    scanf("%d",&weight);
-    node *end_point;
-    end_point = head;
-    while(end_point->id!=dest){ // getting the dest node.
-        end_point = end_point->next;  
+    // printf("NODE SIZE: %d ",node_size);
+    if (tmp_id == -1)
+    { // if the node does not exist, simply add it.
+        head = (node *)realloc(head, node_size * sizeof(node));
+        head[node_size - 1].id = id;
+        head[node_size - 1].edges = NULL;
+        head[node_size - 1].edges = (pedge)malloc(sizeof(edge));
+        head[node_size - 1].edges->endpoint = &head[node_size - 1];
+        head[node_size - 1].edges->weight = -1;
+        head[node_size - 1].edges->next = NULL;
     }
-    insert_edge_cmd(src,end_point,weight); // connect the edge to the node.
+    //after adding the new node/ removing the edges of a an exsistent node, add the edges!
+    c = add_edges(head[id].edges, head); // adds the edges to an exsistent node.
+    return c;
 }
