@@ -4,7 +4,7 @@
 #include <ctype.h>
 #define TRUE 1
 #define FALSE 0
-char c; 
+char c;
 
 int getdest()
 {
@@ -24,50 +24,49 @@ int getdest()
 
 char add_edges(pedge edges, pnode head)
 {
-    // printf("ADDING EDGES for node: \n");
+    pedge curr = edges;
     int dst; // in chars so i can tell if its n and then just convert other wise.
     while (TRUE)
     {
         int w = -1;
-        // printf("enter dst: \n");
         dst = getdest();
         if ((dst == -1))
         {
-            // printf("%d\n",head->id);
             return c; // if its n return n and move to the next node!
         }
         else
         {
-            // printf("enter weight: \n");
             scanf("%d", &w); // gets the weight
-            pedge curr = edges;
-            while (curr->next != NULL) // get the last edge.
-            {
-                curr = curr->next;
-            }
+            pedge newEdge = (pedge)malloc(sizeof(edge)); // creating new edge.
             pnode endpoint = head; // the node for endpoint.
             while (endpoint->id != dst)
             {
                 endpoint = endpoint->next;
             }
-            curr->next = (pedge)malloc(sizeof(edge));
-            curr->next->endpoint = endpoint; //converts the dst to number
-            curr->next->weight = w;
+            newEdge ->next = NULL;
+            newEdge->endpoint = endpoint;
+            newEdge ->weight = w;
+            curr->next = newEdge;
+            curr = newEdge;
         }
     }
-   
+
     return '\0';
 }
 
 void remove_edges(pedge edges)
-{      
-    printf("GOOD?\n");
-    while (edges != NULL)
-    {
-        pedge tmp = edges;
-        edges = edges->next;
-        tmp->endpoint = NULL; //empty to null.
-        tmp->weight = -1;     // set weight to minus -1
-        free(tmp);            // free memory
+{
+    pedge tmp,curr;
+    if(edges->next != NULL){
+        curr = edges -> next;
+        while(curr!=NULL){
+            tmp = curr->next;
+            free(curr);
+            curr = tmp;
+        }
     }
+    printf("CHECKING..\n");
+    edges->next = NULL;
+    edges->endpoint = NULL;
+    edges->weight = -1;
 }

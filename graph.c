@@ -88,6 +88,9 @@ int main()
     scanf("%c", &c); // what to choose as a char.
     while (c != '\n')
     {
+        if(c==' '){
+            scanf("%c",&c);
+        }
         if (c == 'A') // A case, loading a graph.
         {
             scanf("%d", &node_size); // how many nodes to generate, it will always come after this case.
@@ -110,10 +113,7 @@ int main()
         }
         if (c == 'B')
         {
-            while (c == 'B')
-            {
-                c = add_node(head);
-            }
+            c = add_node(head);
         }
     }
 }
