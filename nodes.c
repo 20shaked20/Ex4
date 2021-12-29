@@ -34,6 +34,8 @@ char add_node(pnode head)
         pnode newNode = (struct GRAPH_NODE_ *)malloc(sizeof(struct GRAPH_NODE_));
         newNode->id = id;
         newNode->next = NULL;
+        newNode->cost = INF; // dijkstra
+        newNode->visited = FALSE; // dijkstra
         newNode->edges = NULL;
         newNode->edges = (pedge)malloc(sizeof(edge)); // set list
         if (newNode->edges == NULL)
@@ -41,7 +43,7 @@ char add_node(pnode head)
             printf("Unable to allocate memory to curr node %d", id);
         }
         newNode->edges->endpoint = newNode;
-        newNode->edges->weight = -1;
+        newNode->edges->weight = 0;
         newNode->edges->next = NULL;
         last->next = newNode;
         c = add_edges(newNode->edges, head);

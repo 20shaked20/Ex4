@@ -2,8 +2,7 @@
 #include <stdlib.h>
 #include "graph.h"
 #include <ctype.h>
-#define TRUE 1
-#define FALSE 0
+
 char c;
 
 int getdest()
@@ -28,7 +27,7 @@ char add_edges(pedge edges, pnode head)
     int dst; // in chars so i can tell if its n and then just convert other wise.
     while (TRUE)
     {
-        int w = -1;
+        int w = 0;
         dst = getdest();
         if ((dst == -1))
         {
@@ -68,5 +67,5 @@ void remove_edges(pedge edges)
     printf("CHECKING..\n");
     edges->next = NULL;
     edges->endpoint = NULL;
-    edges->weight = -1;
+    edges->weight = 0;
 }
