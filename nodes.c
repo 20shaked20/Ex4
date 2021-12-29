@@ -9,23 +9,27 @@ char add_node(pnode head)
     char c;
     int node_size = 0;
     printf("ADDING NODE \n");
+    getchar();
     scanf("%d", &id); // gets the id of node we operates
+    printf("%d : \n",id);
     //checking if the node exists, if so, we'll have to remove the edges of it, other wise just add it.
+    printf("CURR: %d ",head->id);
+    printf("NEXT: %d ",head->next->id);
     pnode traverse = head;
-    while (traverse != NULL)
+    while (traverse->next!= NULL)
     {
-        printf("GOOD\n");
-        printf("TRAVERSE: %d \n", traverse[0].id);
+        // printf("ID: %d ",traverse->id);
         if (traverse->id == id)
         { // if the node does exsits, we'll remove its edges.
+            printf("NODE exists ");
             remove_edges(head[id].edges);
             tmp_id = id;
         }
-        printf("NEXT: %d \n", traverse[node_size].id);
+        // printf("NEXT: %d \n", traverse->id);
         traverse = traverse->next;
         ++node_size;
     }
-    // printf("NODE SIZE: %d ",node_size);
+    printf("NODE SIZE: %d \n",node_size);
     if (tmp_id == -1)
     { // if the node does not exist, simply add it.
         head = (node *)realloc(head, node_size * sizeof(node));
