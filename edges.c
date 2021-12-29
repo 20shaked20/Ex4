@@ -33,7 +33,7 @@ char add_edges(pedge edges, pnode head)
         dst = getdest();
         if ((dst == -1))
         {
-            printf("HEAD ID : %d \n", head->id);
+            // printf("%d\n",head->id);
             return c; // if its n return n and move to the next node!
         }
         else
@@ -60,7 +60,8 @@ char add_edges(pedge edges, pnode head)
 }
 
 void remove_edges(pedge edges)
-{
+{      
+    printf("GOOD?\n");
     while (edges != NULL)
     {
         pedge tmp = edges;

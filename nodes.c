@@ -5,42 +5,51 @@
 char add_node(pnode head)
 {
     int id = 0;
-    int tmp_id = -1;
+    int exist = -1;
     char c;
-    int node_size = 0;
     printf("ADDING NODE \n");
     getchar();
     scanf("%d", &id); // gets the id of node we operates
-    printf("%d : \n",id);
+    printf("%d : \n", id);
     //checking if the node exists, if so, we'll have to remove the edges of it, other wise just add it.
-    printf("CURR: %d ",head->id);
-    printf("NEXT: %d ",head->next->id);
-    pnode traverse = head;
-    while (traverse->next!= NULL)
+    pnode existNode = head;
+    while (existNode != NULL)
     {
-        // printf("ID: %d ",traverse->id);
-        if (traverse->id == id)
+        if (existNode->id == id)
         { // if the node does exsits, we'll remove its edges.
             printf("NODE exists ");
-            remove_edges(head[id].edges);
-            tmp_id = id;
+            remove_edges(existNode->edges);
+            exist = id;
+            break;
         }
-        // printf("NEXT: %d \n", traverse->id);
-        traverse = traverse->next;
-        ++node_size;
+        existNode = existNode->next;
     }
-    printf("NODE SIZE: %d \n",node_size);
-    if (tmp_id == -1)
-    { // if the node does not exist, simply add it.
-        head = (node *)realloc(head, node_size * sizeof(node));
-        head[node_size - 1].id = id;
-        head[node_size - 1].edges = NULL;
-        head[node_size - 1].edges = (pedge)malloc(sizeof(edge));
-        head[node_size - 1].edges->endpoint = &head[node_size - 1];
-        head[node_size - 1].edges->weight = -1;
-        head[node_size - 1].edges->next = NULL;
+    if (exist == -1)
+    { // if the node does not exist, simply add it and add the new edges.
+        pnode last = head;
+        while (last->next != NULL)
+        {
+            last = last->next;
+        }
+        pnode newNode = (struct GRAPH_NODE_ *)malloc(sizeof(struct GRAPH_NODE_));
+        newNode->id = id;
+        newNode->next = NULL;
+        newNode->edges = NULL;
+        newNode->edges = (pedge)malloc(sizeof(edge)); // set list
+        if (newNode->edges == NULL)
+        {
+            printf("Unable to allocate memory to curr node %d", id);
+        }
+        newNode->edges->endpoint = newNode;
+        newNode->edges->weight = -1;
+        newNode->edges->next = NULL;
+        last->next = newNode;
+        c = add_edges(newNode->edges, head);
     }
-    //after adding the new node/ removing the edges of a an exsistent node, add the edges!
-    c = add_edges(head[id].edges, head); // adds the edges to an exsistent node.
+    else
+    {
+        //after removing the edges of a an exsistent node, add the edges!
+        c = add_edges(existNode->edges, head);
+    }
     return c;
 }

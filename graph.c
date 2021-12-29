@@ -15,7 +15,7 @@ char build_graph_cmd(pnode head)
 
     //INIT HEAD:
     head->id = 0;
-    head->next = (struct GRAPH_NODE_ *)malloc(node_size * sizeof(struct GRAPH_NODE_));
+    head->next = (struct GRAPH_NODE_ *)malloc(sizeof(struct GRAPH_NODE_));
     head->edges = NULL;
     head->edges = (pedge)malloc(sizeof(edge)); // set list
     if (head->edges == NULL)
@@ -26,12 +26,12 @@ char build_graph_cmd(pnode head)
     head->edges->weight = -1;
     head->edges->next = NULL;
     //INIT OTHER LIST:
-    for (i = 1; i <= node_size; ++i)
+    pnode currNode = head;
+    for (i = 1; i < node_size; ++i)
     {
-        pnode newNode;
-        newNode = (struct GRAPH_NODE_ *)malloc(node_size * sizeof(struct GRAPH_NODE_));
+        pnode newNode = (struct GRAPH_NODE_ *)malloc(sizeof(struct GRAPH_NODE_));
         newNode->id = i;
-        newNode->next = head;
+        newNode->next = NULL;
         newNode->edges = NULL;
         newNode->edges = (pedge)malloc(sizeof(edge)); // set list
         if (newNode->edges == NULL)
@@ -41,21 +41,20 @@ char build_graph_cmd(pnode head)
         newNode->edges->endpoint = newNode;
         newNode->edges->weight = -1;
         newNode->edges->next = NULL;
-        head = newNode;
+        currNode->next = newNode;
+        currNode = newNode;
     }
+
     // now to create the edges of each node above.
     // now to get 'n'
-    // getchar(); // fixing the scanf with %c problem occurs while trying to scanf the computer thinkings i enterd a blank space.
     scanf(" %c", &c);
     while (c == 'n')
     {
         pnode tmp = head;
         scanf("%d", &id); // gets the id of node we operates
-        // printf("NODE : %d \n", id);
         while (tmp->id != id)
         {
             tmp = tmp->next;
-            // printf("next: %d \n",tmp->id);
         }
         c = add_edges(tmp->edges, head); // adds the edges, and returns the next n from the edges if one exists.
     }
@@ -78,7 +77,6 @@ void printGraph_cmd(pnode head)
             curr_edge = curr_edge->next;
         }
         tmp = tmp->next;
-        printf("NXT: %d \n",tmp->id);
     }
 }
 
@@ -87,24 +85,24 @@ int main()
 
     char c;
     struct GRAPH_NODE_ *head;
-
+    scanf("%c", &c); // what to choose as a char.
     while (c != '\n')
     {
-        scanf("%c", &c); // what to choose as a char.
-        if (c == 'A')    // A case, loading a graph.
+        if (c == 'A') // A case, loading a graph.
         {
             scanf("%d", &node_size); // how many nodes to generate, it will always come after this case.
             head = (struct GRAPH_NODE_ *)malloc(node_size * sizeof(struct GRAPH_NODE_));
             if (head == NULL)
             {
                 printf("Unable to allocate memory to head");
-                exit(0);
+                exit(1);
             }
             c = build_graph_cmd(head); // builds a graph of N nodes & all its edges.
         }
         if (c == 'P')
         { // printing for self test.
             printGraph_cmd(head);
+            scanf("%c", &c);
         }
         if (c == 'E')
         { // exit state.
