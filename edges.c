@@ -64,7 +64,6 @@ void remove_edges(pedge edges)
             curr = tmp;
         }
     }
-    printf("CHECKING..\n");
     edges->next = NULL;
     edges->endpoint = NULL;
     edges->weight = 0;
