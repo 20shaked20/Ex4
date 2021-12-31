@@ -69,7 +69,7 @@ void printGraph_cmd(pnode head)
     pnode tmp = head;
     while (tmp != NULL)
     {
-        printf("node number: %d \n", tmp->id);
+        printf("-------node number: %d -------\n", tmp->id);
         pedge curr_edge = tmp->edges;
         while (curr_edge != NULL)
         {
@@ -82,6 +82,9 @@ void printGraph_cmd(pnode head)
         tmp = tmp->next;
     }
 }
+
+
+
 void dijkstra(pnode head, int src, int dest)
 {
     pnode pp, set_src;
@@ -181,7 +184,9 @@ int main()
 {
 
     char c;
+    pnode *graph;
     struct GRAPH_NODE_ *head;
+    graph = &head;
     scanf("%c", &c); // what to choose as a char.
     while (c != '\n')
     {
@@ -202,8 +207,10 @@ int main()
         }
         if (c == 'P')
         { // printing for self test.
+          printf("\nP\n");
             printGraph_cmd(head);
             scanf("%c", &c);
+            printf("\n");
         }
         if (c == 'E')
         { // exit state.
@@ -212,6 +219,12 @@ int main()
         if (c == 'B')
         {
             c = add_node(head);
+        }
+        if (c == 'D')
+        {
+          deleteNode(graph);
+          head = *graph;
+          scanf("%c",&c);
         }
         if (c == 'S')
         {

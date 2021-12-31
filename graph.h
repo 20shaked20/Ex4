@@ -17,7 +17,7 @@ typedef struct edge_ {
 typedef struct GRAPH_NODE_ {
     int id;
     int visited; // for dijkstra
-    int cost; // for dijkstra 
+    int cost; // for dijkstra
     pedge edges; // list of edges for node
     struct GRAPH_NODE_ *next;
 } node, *pnode;
@@ -26,7 +26,7 @@ char build_graph_cmd(pnode head);
 char add_edges(pedge edges,pnode head);
 char add_node(pnode head);
 void remove_edges(pedge edges);
-void dijkstra(pnode head, int src, int dest);
+void deleteNode(pnode *graph);//graph is pointer to the head pointer so we can remove the head
 void printGraph_cmd(pnode head); //for self debug
 
 #endif
