@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include "graph.h"
 
-
 int node_size; // how many nodes the graph holds. global variable.
+int min = INF; // used in TSP.
 
 char build_graph_cmd(pnode head)
 {
@@ -28,7 +28,7 @@ char build_graph_cmd(pnode head)
     head->edges->next = NULL;
     //INIT OTHER LIST:
     pnode currNode = head;
-    for (i = 1; i <node_size; ++i)
+    for (i = 1; i < node_size; ++i)
     {
         pnode newNode = (struct GRAPH_NODE_ *)malloc(sizeof(struct GRAPH_NODE_));
         newNode->id = i;
@@ -83,9 +83,7 @@ void printGraph_cmd(pnode head)
     }
 }
 
-
-
-void dijkstra(pnode head, int src, int dest)
+int dijkstra(pnode head, int src, int dest, int flag)
 {
     pnode pp, set_src;
     int visitednum = 0; // checker if visited all nodes
@@ -177,7 +175,65 @@ void dijkstra(pnode head, int src, int dest)
         }
         get_dest = get_dest->next;
     }
-    printf("The shortest path Total cost : %d\n", totalcost);
+    if(flag == 1) { //its dijkstra case.
+        printf("The shortest path Total cost : %d\n", totalcost);
+    }
+    // resets the data after each dijkstra usage.
+    pnode reset = head;
+    while(reset!=NULL){
+        reset->cost = INF;
+        reset->visited = FALSE;
+        reset = reset->next;
+    }
+    return totalcost; // used for tsp.
+}
+
+//function to check the array minimum cost.
+void tsp(pnode head, int cities[], int size)
+{
+    int tmp_min = 0;         // temporary weight to be accumlated using dijkstra method.
+    int curr_id = cities[0]; // src
+    int next_id = 0;         // dst
+    // now to check other connected nodes weights.
+    for (int i = 1; i < size; ++i)
+    {
+        next_id = cities[i];                         // dst
+        tmp_min += dijkstra(head, curr_id, next_id,0); // using dijsktra sums the shortest path to all.
+        curr_id = cities[i];                         //src
+    }
+    if (min > tmp_min)
+    {
+        min = tmp_min;
+    }
+}
+
+//function to swap the variables
+void swap(int *a, int *b)
+{
+    int temp;
+    temp = *a;
+    *a = *b;
+    *b = temp;
+}
+//permutation function
+void permutation(pnode head,int *arr, int start, int end)
+{
+    if (start == end)
+    {
+        tsp(head, arr, end + 1);
+        return;
+    }
+    int i;
+    for (i = start; i <= end; i++)
+    {
+        //swapping numbers
+        swap((arr + i), (arr + start));
+        //fixing one first digit
+        //and calling permutation on
+        //the rest of the digits
+        permutation(head,arr, start + 1, end);
+        swap((arr + i), (arr + start));
+    }
 }
 
 int main()
@@ -207,7 +263,6 @@ int main()
         }
         if (c == 'P')
         { // printing for self test.
-          printf("\nP\n");
             printGraph_cmd(head);
             scanf("%c", &c);
             printf("\n");
@@ -222,17 +277,33 @@ int main()
         }
         if (c == 'D')
         {
-          deleteNode(graph);
-          head = *graph;
-          scanf("%c",&c);
+            deleteNode(graph);
+            head = *graph;
+            scanf("%c", &c);
         }
         if (c == 'S')
         {
             int src, dst;
             scanf("%d", &src);
             scanf("%d", &dst);
-            dijkstra(head, src, dst);
+            dijkstra(head, src, dst,1); // the one is used for flag, wether to print the path or not.
             scanf("%c", &c);
+        }
+        if (c == 'T')
+        {
+            //taking input to the array
+            int size;
+            printf("Enter the cities amount\n");
+            scanf("%d", &size);
+            int i;
+            int cities[size];
+            for (i = 0; i < size; i++) // getting cities.
+                scanf("%d", &cities[i]);
+            //calling permutation function
+            permutation(head, cities, 0, size - 1);
+            printf("The minimum tsp cost is : %d \n", min);
+            min = INF; // reset min to be inf again after we altered it in the program.
+            scanf("%c",&c);
         }
     }
 }
