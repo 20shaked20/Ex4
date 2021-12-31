@@ -5,7 +5,7 @@
 #define FALSE 0
 #define INF 9999
 
-typedef struct GRAPH_NODE_ *pnode;;
+typedef struct GRAPH_NODE_ *pnode;
 
 typedef struct edge_ {
     int weight;

@@ -28,7 +28,7 @@ char build_graph_cmd(pnode head)
     head->edges->next = NULL;
     //INIT OTHER LIST:
     pnode currNode = head;
-    for (i = 1; i < node_size; ++i)
+    for (i = 1; i <node_size; ++i)
     {
         pnode newNode = (struct GRAPH_NODE_ *)malloc(sizeof(struct GRAPH_NODE_));
         newNode->id = i;
