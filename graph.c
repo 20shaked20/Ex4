@@ -14,7 +14,7 @@ char build_graph_cmd(pnode head)
 
     //INIT HEAD:
     head->id = 0;
-    head->next = (struct GRAPH_NODE_ *)malloc(sizeof(struct GRAPH_NODE_));
+    head->next = NULL;
     head->cost = INF;      // dijkstra
     head->visited = FALSE; // dijkstra
     head->edges = NULL;
@@ -177,6 +177,7 @@ int dijkstra(pnode head, int src, int dest, int flag)
         get_dest = get_dest->next;
     }
     if(flag == 1) { //its dijkstra case.
+      if(totalcost == INF) totalcost = -1;
         printf("Dijsktra shortest path: %d\n", totalcost);
     }
     // resets the data after each dijkstra usage.
@@ -323,6 +324,7 @@ int main()
                 scanf("%d", &cities[i]);
             //calling permutation function
             permutation(*graph, cities, 0, size - 1);
+            if (min == INF) min = -1;
             printf("TSP shortest path: %d \n", min);
             min = INF; // reset min to be inf again after we altered it in the program.
             scanf("%c",&c);
