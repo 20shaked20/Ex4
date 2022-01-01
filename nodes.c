@@ -7,17 +7,13 @@ char add_node(pnode head)
     int id = 0;
     int exist = -1;
     char c;
-    printf("ADDING NODE -> ");
-    getchar();
-    scanf("%d", &id); // gets the id of node we operates
-    printf("%d\n", id);
+    scanf(" %d", &id); // gets the id of node we operates
     //checking if the node exists, if so, we'll have to remove the edges of it, other wise just add it.
     pnode existNode = head;
     while (existNode != NULL)
     {
         if (existNode->id == id)
         { // if the node does exsits, we'll remove its edges.
-            printf("NODE exists \n");
             remove_edges(existNode->edges);
             exist = id;
             break;
@@ -26,7 +22,6 @@ char add_node(pnode head)
     }
     if (exist == -1)
     { // if the node does not exist, simply add it and add the new edges.
-        printf("NODE Doesnt exists \n");
         pnode last = head;
         while (last->next != NULL)
         {

@@ -130,11 +130,12 @@ int dijkstra(pnode head, int src, int dest, int flag)
         */
         if (targetnode->edges != NULL)
         {
-
+          if(targetnode->edges->endpoint!=NULL){
             if (targetnode->edges->endpoint->cost > targetnode->cost + targetnode->edges->weight)
             {
                 targetnode->edges->endpoint->cost = targetnode->cost + targetnode->edges->weight;
             }
+          }
             /*
              If there's more than one edges connected to node.
             */
@@ -176,7 +177,7 @@ int dijkstra(pnode head, int src, int dest, int flag)
         get_dest = get_dest->next;
     }
     if(flag == 1) { //its dijkstra case.
-        printf("The shortest path Total cost : %d\n", totalcost);
+        printf("Dijsktra shortest path: %d\n", totalcost);
     }
     // resets the data after each dijkstra usage.
     pnode reset = head;
@@ -236,12 +237,30 @@ void permutation(pnode head,int *arr, int start, int end)
     }
 }
 
+void freeGraph(pnode *graph){
+  if ((*graph)->next == NULL){
+    remove_edges((*graph)->edges);
+    free((*graph)->edges);
+    free((*graph));
+    return;
+  }
+  pnode currNode = (*graph);
+  pnode temp;
+  while(currNode != NULL){
+    remove_edges(currNode->edges);
+    free(currNode->edges);
+    temp = currNode->next;
+    free(currNode);
+    currNode = temp;
+  }
+}
+
 int main()
 {
 
     char c;
     pnode *graph;
-    struct GRAPH_NODE_ *head;
+    struct GRAPH_NODE_ *head = NULL;
     graph = &head;
     scanf("%c", &c); // what to choose as a char.
     while (c != '\n')
@@ -252,8 +271,12 @@ int main()
         }
         if (c == 'A') // A case, loading a graph.
         {
+            if (*graph != NULL){
+              freeGraph(graph);
+            }
             scanf("%d", &node_size); // how many nodes to generate, it will always come after this case.
             head = (struct GRAPH_NODE_ *)malloc(node_size * sizeof(struct GRAPH_NODE_));
+            graph = &head;
             if (head == NULL)
             {
                 printf("Unable to allocate memory to head");
@@ -273,7 +296,7 @@ int main()
         }
         if (c == 'B')
         {
-            c = add_node(head);
+            c = add_node(*graph);
         }
         if (c == 'D')
         {
@@ -293,17 +316,17 @@ int main()
         {
             //taking input to the array
             int size;
-            printf("Enter the cities amount\n");
             scanf("%d", &size);
             int i;
             int cities[size];
             for (i = 0; i < size; i++) // getting cities.
                 scanf("%d", &cities[i]);
             //calling permutation function
-            permutation(head, cities, 0, size - 1);
-            printf("The minimum tsp cost is : %d \n", min);
+            permutation(*graph, cities, 0, size - 1);
+            printf("TSP shortest path: %d \n", min);
             min = INF; // reset min to be inf again after we altered it in the program.
             scanf("%c",&c);
         }
     }
+    freeGraph(graph);
 }

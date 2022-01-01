@@ -26,7 +26,7 @@ char build_graph_cmd(pnode head);
 char add_edges(pedge edges,pnode head);
 char add_node(pnode head);
 void remove_edges(pedge edges);
-int dijkstra(pnode head, int src, int dest,int flag); // the flag is used for checking if want to print the path or not. 
+int dijkstra(pnode head, int src, int dest,int flag); // the flag is used for checking if want to print the path or not.
 void deleteNode(pnode *graph);//graph is pointer to the head pointer so we can remove the head
 void printGraph_cmd(pnode head); //for self debug
 
