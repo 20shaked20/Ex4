@@ -178,7 +178,7 @@ int dijkstra(pnode head, int src, int dest, int flag)
     }
     if(flag == 1) { //its dijkstra case.
       if(totalcost == INF) totalcost = -1;
-        printf("Dijsktra shortest path: %d\n", totalcost);
+        printf("Dijsktra shortest path: %d \n", totalcost);
     }
     // resets the data after each dijkstra usage.
     pnode reset = head;
